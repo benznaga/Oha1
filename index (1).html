@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OHA Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f0f4f8;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .student { background: #4CAF50; }
+    .teacher { background: #2196F3; }
+    .option { background: #673ab7; }
+
+    .hidden { display: none; }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="home">
+    <h1>OHA Learning</h1>
+    <div class="card">
+      <button class="btn student" onclick="show('student')">I am a Student</button>
+      <button class="btn teacher" onclick="show('teacher')">I am a Teacher</button>
+    </div>
+  </div>
+
+  <!-- STUDENT -->
+  <div id="student" class="hidden">
+    <h2>Select Class</h2>
+    <div class="card">
+      <button class="btn option" onclick="selectClass(10)">Class 10</button>
+      <button class="btn option" onclick="selectClass(11)">Class 11</button>
+    </div>
+  </div>
+
+  <!-- STREAM -->
+  <div id="stream" class="hidden">
+    <h2>Select Stream</h2>
+    <div class="card">
+      <button class="btn option" onclick="show('subject')">Science</button>
+      <button class="btn option" onclick="show('subject')">Arts</button>
+    </div>
+  </div>
+
+  <!-- SUBJECT -->
+  <div id="subject" class="hidden">
+    <h2>Select Subject</h2>
+    <div class="card">
+      <button class="btn option" onclick="show('topic')">Science</button>
+    </div>
+  </div>
+
+  <!-- TOPIC -->
+  <div id="topic" class="hidden">
+    <h2>Covalent Bond</h2>
+    <div class="card">
+
+      <p><b>Story:</b><br>
+      Student forgot book → teacher said share → both study</p>
+
+      <p><b>Think:</b><br>
+      Why do carbon atoms share electrons?</p>
+
+      <p><b>Concept:</b><br>
+      Atoms want stability <br>
+      Cannot gain or lose easily <br>
+      So they share electrons
+      </p>
+
+      <button class="btn student" onclick="alert('🎉 Correct! You earned XP')">
+        Take Quiz
+      </button>
+
+    </div>
+  </div>
+
+  <!-- TEACHER -->
+  <div id="teacher" class="hidden">
+    <h2>Teacher Dashboard</h2>
+    <div class="card">
+      <p>Create lesson plans and track syllabus</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll("div[id]").forEach(el => el.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function selectClass(cls){
+  if(cls == 11){
+    show('stream');
+  } else {
+    show('subject');
+  }
+}
+</script>
+
+</body>
+</html>
