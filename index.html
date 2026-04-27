@@ -6,19 +6,19 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial;
       margin: 0;
       background: #f0f4f8;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 420px;
       margin: auto;
       padding: 20px;
       text-align: center;
     }
 
-    h1 {
+    h1, h2 {
       color: #333;
     }
 
@@ -33,20 +33,22 @@
     .btn {
       display: block;
       width: 100%;
-      padding: 15px;
-      margin: 10px 0;
+      padding: 14px;
+      margin: 8px 0;
       border: none;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 15px;
       color: white;
       cursor: pointer;
     }
 
-    .student { background: #4CAF50; }
-    .teacher { background: #2196F3; }
-    .option { background: #673ab7; }
+    .green { background: #4CAF50; }
+    .blue { background: #2196F3; }
+    .purple { background: #673ab7; }
+    .orange { background: #ff9800; }
 
     .hidden { display: none; }
+    input { padding:10px; width:90%; margin:5px; }
   </style>
 </head>
 
@@ -54,88 +56,129 @@
 
 <div class="container">
 
-  <!-- HOME -->
-  <div id="home">
-    <h1>OHA Learning</h1>
-    <div class="card">
-      <button class="btn student" onclick="show('student')">I am a Student</button>
-      <button class="btn teacher" onclick="show('teacher')">I am a Teacher</button>
-    </div>
+<!-- HOME -->
+<div id="home">
+  <h1>OHA Learning</h1>
+  <div class="card">
+    <button class="btn green" onclick="show('student')">I am a Student</button>
+    <button class="btn blue" onclick="show('teacher')">I am a Teacher</button>
   </div>
+</div>
 
-  <!-- STUDENT -->
-  <div id="student" class="hidden">
-    <h2>Select Class</h2>
-    <div class="card">
-      <button class="btn option" onclick="selectClass(10)">Class 10</button>
-      <button class="btn option" onclick="selectClass(11)">Class 11</button>
-    </div>
+<!-- STUDENT CLASS -->
+<div id="student" class="hidden">
+  <h2>Select Class</h2>
+  <div class="card">
+    <button class="btn purple" onclick="selectClass(8)">Class 8</button>
+    <button class="btn purple" onclick="selectClass(9)">Class 9</button>
+    <button class="btn purple" onclick="selectClass(10)">Class 10</button>
+    <button class="btn purple" onclick="selectClass(11)">Class 11</button>
+    <button class="btn purple" onclick="selectClass(12)">Class 12</button>
   </div>
+</div>
 
-  <!-- STREAM -->
-  <div id="stream" class="hidden">
-    <h2>Select Stream</h2>
-    <div class="card">
-      <button class="btn option" onclick="show('subject')">Science</button>
-      <button class="btn option" onclick="show('subject')">Arts</button>
-    </div>
+<!-- STREAM -->
+<div id="stream" class="hidden">
+  <h2>Select Stream</h2>
+  <div class="card">
+    <button class="btn orange" onclick="showScience()">Science</button>
+    <button class="btn orange" onclick="showArts()">Arts</button>
   </div>
+</div>
 
-  <!-- SUBJECT -->
-  <div id="subject" class="hidden">
-    <h2>Select Subject</h2>
-    <div class="card">
-      <button class="btn option" onclick="show('topic')">Science</button>
-    </div>
+<!-- SUBJECTS -->
+<div id="subjects" class="hidden">
+  <h2>Select Subject</h2>
+  <div class="card" id="subjectList"></div>
+</div>
+
+<!-- TOPIC -->
+<div id="topic" class="hidden">
+  <h2>Covalent Bond</h2>
+  <div class="card">
+    <p><b>Story:</b> Student forgot book → teacher said share → both study</p>
+    <p><b>Think:</b> Why do carbon atoms share electrons?</p>
+    <p><b>Concept:</b><br>
+    Atoms want stability <br>
+    Cannot gain or lose easily <br>
+    So they share electrons
+    </p>
   </div>
+</div>
 
-  <!-- TOPIC -->
-  <div id="topic" class="hidden">
-    <h2>Covalent Bond</h2>
-    <div class="card">
+<!-- TEACHER -->
+<div id="teacher" class="hidden">
+  <h2>Lesson Planner</h2>
+  <div class="card">
 
-      <p><b>Story:</b><br>
-      Student forgot book → teacher said share → both study</p>
+    <input type="number" id="topics" placeholder="Total Topics">
+    <input type="date" id="examDate">
 
-      <p><b>Think:</b><br>
-      Why do carbon atoms share electrons?</p>
+    <button class="btn blue" onclick="calculatePlan()">Generate Plan</button>
 
-      <p><b>Concept:</b><br>
-      Atoms want stability <br>
-      Cannot gain or lose easily <br>
-      So they share electrons
-      </p>
+    <p id="result"></p>
 
-      <button class="btn student" onclick="alert('🎉 Correct! You earned XP')">
-        Take Quiz
-      </button>
-
-    </div>
   </div>
-
-  <!-- TEACHER -->
-  <div id="teacher" class="hidden">
-    <h2>Teacher Dashboard</h2>
-    <div class="card">
-      <p>Create lesson plans and track syllabus</p>
-    </div>
-  </div>
+</div>
 
 </div>
 
 <script>
+
 function show(id){
   document.querySelectorAll("div[id]").forEach(el => el.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
 }
 
 function selectClass(cls){
-  if(cls == 11){
+  if(cls == 11 || cls == 12){
     show('stream');
   } else {
-    show('subject');
+    loadSubjects(["Maths","Science","Social Science","English","Alt English","FIT"]);
   }
 }
+
+function showScience(){
+  loadSubjects(["Maths","Physics","Chemistry","Biology"]);
+}
+
+function showArts(){
+  loadSubjects(["History","Political Science","Economics","Sociology"]);
+}
+
+function loadSubjects(subjects){
+  show('subjects');
+  let list = document.getElementById("subjectList");
+  list.innerHTML = "";
+
+  subjects.forEach(sub => {
+    let btn = document.createElement("button");
+    btn.className = "btn purple";
+    btn.innerText = sub;
+    btn.onclick = () => show('topic');
+    list.appendChild(btn);
+  });
+}
+
+function calculatePlan(){
+  let topics = document.getElementById("topics").value;
+  let examDate = new Date(document.getElementById("examDate").value);
+  let today = new Date();
+
+  let daysLeft = Math.ceil((examDate - today) / (1000*60*60*24));
+
+  if(daysLeft <= 0){
+    document.getElementById("result").innerText = "Invalid date";
+    return;
+  }
+
+  let perDay = (topics / daysLeft).toFixed(2);
+
+  document.getElementById("result").innerText =
+    "Days Left: " + daysLeft +
+    " | Topics per day: " + perDay;
+}
+
 </script>
 
 </body>
